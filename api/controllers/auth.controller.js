@@ -53,9 +53,7 @@ export const signin = async (req, res, next) => {
       { id: validUser._id, isAdmin: validUser.isAdmin },
       process.env.JWT_SECRET
     );
-
     const { password: pass, ...rest } = validUser._doc;
-
     res
       .status(200)
       .cookie('access_token', token, {
