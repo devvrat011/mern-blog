@@ -17,6 +17,6 @@ export const create = async (req, res,next) => {
         const savedPost = await newPost.save();
         res.status(201).json(savedPost);
     } catch (error) {
-
+        
     }
 }
