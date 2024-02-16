@@ -45,6 +45,25 @@ function DashPosts() {
             consonle.log(error);
         }
     }
+    const handleDeletePost = async() => {
+        setShowModal(false);
+        try {
+            const res = await fetch(`/api/post/deletepost/${postIdToDelete}/${currentUser._id}`,
+            {
+                method: 'DELETE',
+            });
+            const data = await res.json();
+            if(!res.ok){
+                console.log(data.message);
+            } else{
+                setUserPosts((prev) => 
+                    prev.filter((post) => post._id !== postIdToDelete)
+                );
+            }
+        } catch(error){
+            console.log(error);
+        }
+    }
   return (
      <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {currentUser.isAdmin && userPosts.length > 0 ? (
@@ -133,7 +152,7 @@ function DashPosts() {
               Are you sure you want to delete this post?
             </h3>
             <div className='flex justify-center gap-4'>
-              <Button color='failure' >
+              <Button onClick={handleDeletePost} color='failure' >
                 Yes, I'm sure
               </Button>
               <Button color='gray' onClick={() => setShowModal(false)}>
