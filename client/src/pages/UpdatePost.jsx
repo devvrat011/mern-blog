@@ -40,7 +40,6 @@ export default function UpdatePost() {
           setFormData(data.posts[0]);
         }
       };
-
       fetchPost();
     } catch (error) {
       console.log(error.message);
