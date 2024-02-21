@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import Comment from './Comment';
 
 export default function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
@@ -16,18 +17,38 @@ export default function CommentSection({ postId }) {
     if(comment.length>200){
       return;
     }
-    const res = await fetch('/api/comment/create',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({content: comment, postId, userId: currentUser._id}),
-    });
-    const data = await res.json();
-    if(res.ok) {
-      setComment('');
+    try {
+      const res = await fetch('/api/comment/create',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({content: comment, postId, userId: currentUser._id}),
+      });
+      const data = await res.json();
+      if(res.ok) {
+        setComment('');
+        setCommentError(null);
+        setComment([data,...comments]);
+      }
+    } catch(error) {
+      setCommentError(error.message);
     }
   }
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        if (res.ok) {
+          const data = await res.json();
+          setComments(data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getComments();
+  }, [postId]);
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
       {currentUser ? (
