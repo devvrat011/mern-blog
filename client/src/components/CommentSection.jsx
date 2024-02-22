@@ -2,40 +2,45 @@ import { Alert, Button, Modal, TextInput, Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import Comment from './Comment';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 export default function CommentSection({ postId }) {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState('');
   const [commentError, setCommentError] = useState(null);
-  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
-  const handleSubmit = async(e) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(comment.length>200){
+    if (comment.length > 200) {
       return;
     }
     try {
-      const res = await fetch('/api/comment/create',{
+      const res = await fetch('/api/comment/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({content: comment, postId, userId: currentUser._id}),
+        body: JSON.stringify({
+          content: comment,
+          postId,
+          userId: currentUser._id,
+        }),
       });
       const data = await res.json();
-      if(res.ok) {
+      if (res.ok) {
         setComment('');
         setCommentError(null);
-        setComments([data,...comments]);
+        setComments([data, ...comments]);
       }
-    } catch(error) {
+    } catch (error) {
       setCommentError(error.message);
     }
-  }
+  };
+
   useEffect(() => {
     const getComments = async () => {
       try {
@@ -50,6 +55,7 @@ export default function CommentSection({ postId }) {
     };
     getComments();
   }, [postId]);
+
   const handleLike = async (commentId) => {
     try {
       if (!currentUser) {
@@ -77,12 +83,32 @@ export default function CommentSection({ postId }) {
       console.log(error.message);
     }
   };
+
   const handleEdit = async (comment, editedContent) => {
     setComments(
       comments.map((c) =>
         c._id === comment._id ? { ...c, content: editedContent } : c
       )
     );
+  };
+
+  const handleDelete = async (commentId) => {
+    setShowModal(false);
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+      const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setComments(comments.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
@@ -110,7 +136,8 @@ export default function CommentSection({ postId }) {
         </div>
       )}
       {currentUser && (
-        <form onSubmit={handleSubmit}
+        <form
+          onSubmit={handleSubmit}
           className='border border-teal-500 rounded-md p-3'
         >
           <Textarea
@@ -175,7 +202,7 @@ export default function CommentSection({ postId }) {
             <div className='flex justify-center gap-4'>
               <Button
                 color='failure'
-                // onClick={() => handleDelete(commentToDelete)}
+                onClick={() => handleDelete(commentToDelete)}
               >
                 Yes, I'm sure
               </Button>
