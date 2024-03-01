@@ -118,7 +118,7 @@ export default function Header() {
           <Link to='/about'>About</Link>
         </Navbar.Link>
         <Navbar.Link active={path === '/projects'} as={'div'}>
-          <Link to='/projects'>Projects</Link>
+          <a href='https://github.com/devvrat011?tab=repositories' target="_blank">Projects</a>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
