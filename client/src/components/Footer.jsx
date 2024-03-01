@@ -1,6 +1,6 @@
 import { Footer } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import { BsFacebook, BsInstagram, BsTwitter, BsGithub, BsDribbble } from 'react-icons/bs';
+import { BsFacebook, BsInstagram, BsTwitter, BsGithub, BsLinkedin } from 'react-icons/bs';
 export default function FooterCom() {
   return (
     <Footer container className='border border-t-8 border-teal-500'>
@@ -22,11 +22,11 @@ export default function FooterCom() {
               <Footer.Title title='About' />
               <Footer.LinkGroup col>
                 <Footer.Link
-                  href='https://www.100jsprojects.com'
+                  href='https://newbreak.church/blog/?gad_source=1'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  100 JS Projects
+                  Relevant Blog Website
                 </Footer.Link>
                 <Footer.Link
                   href='/about'
@@ -41,7 +41,7 @@ export default function FooterCom() {
               <Footer.Title title='Follow us' />
               <Footer.LinkGroup col>
                 <Footer.Link
-                  href='https://www.github.com/sahandghavidel'
+                  href='https://www.github.com/devvrat011'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -67,12 +67,11 @@ export default function FooterCom() {
             year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
-            <Footer.Icon href='#' icon={BsFacebook}/>
-            <Footer.Icon href='#' icon={BsInstagram}/>
-            <Footer.Icon href='#' icon={BsTwitter}/>
+            <Footer.Icon href='https://www.facebook.com/devvrat.gupta.39' icon={BsFacebook}/>
+            <Footer.Icon href='https://www.instagram.com/devvrat_gupta11/' icon={BsInstagram}/>
+            <Footer.Icon href='https://twitter.com/Devvrat6353' icon={BsTwitter}/>
             <Footer.Icon href='https://github.com/devvrat011' icon={BsGithub}/>
-            <Footer.Icon href='#' icon={BsDribbble}/>
-
+            <Footer.Icon href='https://www.linkedin.com/in/devvrat-gupta-84a979228/' icon={BsLinkedin}/>
           </div>
         </div>
       </div>
