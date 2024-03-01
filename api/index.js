@@ -4,11 +4,13 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import postRoutes from './routes/post.route.js';
+import cors from 'cors';
 import commentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
 dotenv.config();
+app.use(cors());
 
 mongoose
   .connect(process.env.MONGO)
